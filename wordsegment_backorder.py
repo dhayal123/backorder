@@ -49,6 +49,12 @@ def segment_domain(domain, unigram, bigram, special_nums):
     if len(domain) < 5:
         return (f"{len(domain)}L", [domain])
 
+    if domain.isdigit():
+        if len(domain) < 7:
+            return (1, [domain])
+        else:
+            return ("JUNK", [])
+
     if any(c.isdigit() for c in domain) and not domain.isdigit():
         return ("JUNK", [])
 
@@ -65,7 +71,7 @@ def segment_domain(domain, unigram, bigram, special_nums):
 
     for i in range(n - 1, -1, -1):
         candidates = []
-        for j in range(i + 2, n + 1):
+        for j in range(i + 1, n + 1):
             word = domain[i:j]
             if word in unigram or word in special_nums:
                 if dp[j] is not None:
