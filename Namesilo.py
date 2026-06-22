@@ -67,9 +67,10 @@ def process_namesilo_export(infile, outfile):
             tld = domain_parts[-1] if len(domain_parts) > 1 else ""
             length = len(main_part)
             dropdate = format_dropdate(row["Auction End"])
-            link = f"https://www.dynadot.com/domain/search?rscreg=inteldomains&domain={domain_name}"
+            link = row["Url"]
             is_idn_str = "Yes" if is_idn(domain_name) else "No"
             source = "Namesilo"
+            type = row["Type"]
             out_row = {
                 "DOMAIN": domain_name,
                 "TLD": tld,
@@ -77,7 +78,7 @@ def process_namesilo_export(infile, outfile):
                 "LENGTH": length,
                 "LINK": link,
                 "SOURCE": source,
-                "TYPE": "Namesilo backorder",
+                "TYPE": type,
                 "APPRAISAL": ""
             }
             writer.writerow(out_row)
@@ -88,7 +89,7 @@ def process_namesilo_export(infile, outfile):
     print(f'Total records in output file: {output_count}')
 
 folder_path = '/Users/dhayalmani/Downloads/Data/backorder/'
-pattern = os.path.join(folder_path, 'namesilo_export*.csv')
+pattern = os.path.join(folder_path, 'namesilo_export.csv')
 csv_files = glob.glob(pattern)
 
 for infile in csv_files:
